@@ -1,5 +1,6 @@
 import Luz from './Luz';
 
+// Ordem de exibição das luzes do semáforo, de cima para baixo.
 const cores = ['vermelho', 'amarelo', 'verde'];
 
 function Semaforo({ corAtiva }) {
