@@ -1,38 +1,308 @@
-.App {
+#root {
+  min-height: 100vh;
+}
+
+.traffic-page {
+  display: grid;
+  min-height: 100vh;
+  padding: 32px 16px;
+  place-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(28, 91, 90, 0.2), transparent 38%),
+    #eef3f0;
+}
+
+.traffic-card {
+  width: min(100%, 440px);
+  padding: 36px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 70px rgba(22, 49, 43, 0.14);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.traffic-eyebrow {
+  margin: 0 0 10px;
+  color: #56736b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.traffic-card h1 {
+  margin: 0;
+  color: #1d302b;
+  font-size: clamp(28px, 7vw, 38px);
+  letter-spacing: -0.04em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.traffic-intro {
+  margin: 12px 0 26px;
+  color: #61706b;
+  line-height: 1.6;
+}
+
+.traffic-signal {
   display: flex;
+  width: 118px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 12px;
+  margin: 0 auto;
+  padding: 18px 0;
+  border: 5px solid #242a29;
+  border-radius: 38px;
+  background: linear-gradient(110deg, #323a38, #161b1a);
+  box-shadow: 0 16px 28px rgba(19, 29, 26, 0.2);
 }
 
-.App-link {
-  color: #61dafb;
+.traffic-bulb {
+  width: 76px;
+  aspect-ratio: 1;
+  border: 4px solid rgba(0, 0, 0, 0.24);
+  border-radius: 50%;
+  opacity: 0.32;
+  transition:
+    opacity 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
 }
 
-@keyframes App-logo-spin {
+.traffic-bulb--vermelho {
+  background: #f04444;
+}
+
+.traffic-bulb--amarelo {
+  background: #f5c842;
+}
+
+.traffic-bulb--verde {
+  background: #35bd70;
+}
+
+.traffic-bulb.is-active {
+  opacity: 1;
+  filter: saturate(1.1);
+}
+
+.traffic-bulb--vermelho.is-active {
+  box-shadow: 0 0 26px rgba(240, 68, 68, 0.78);
+}
+
+.traffic-bulb--amarelo.is-active {
+  box-shadow: 0 0 26px rgba(245, 200, 66, 0.78);
+}
+
+.traffic-bulb--verde.is-active {
+  box-shadow: 0 0 26px rgba(53, 189, 112, 0.78);
+}
+
+.traffic-scene {
+  position: relative;
+  width: 210px;
+  height: 76px;
+  margin: -4px auto 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f2f6f3;
+}
+
+.traffic-car,
+.traffic-pedestrian {
+  position: absolute;
+  z-index: 1;
+  bottom: 14px;
+  display: block;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.traffic-scene--verde .traffic-car {
+  left: 0;
+  animation: traffic-car-drive 3s linear infinite;
+}
+
+.traffic-scene:not(.traffic-scene--verde) .traffic-car {
+  right: 8px;
+}
+
+.traffic-pedestrian {
+  left: 12px;
+  animation: pedestrian-walk 360ms ease-in-out infinite alternate;
+}
+
+.traffic-road {
+  position: absolute;
+  right: 0;
+  bottom: 16px;
+  left: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #82918a 0 18px,
+    transparent 18px 28px
+  );
+}
+
+@keyframes traffic-car-drive {
   from {
-    transform: rotate(0deg);
+    transform: translateX(-52px);
   }
+
   to {
-    transform: rotate(360deg);
+    transform: translateX(210px);
+  }
+}
+
+@keyframes pedestrian-walk {
+  from {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  to {
+    transform: translateY(-3px) rotate(5deg);
+  }
+}
+
+.traffic-status {
+  min-height: 32px;
+  margin: 20px 0;
+  color: #263d35;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.traffic-controls {
+  display: grid;
+  gap: 14px;
+}
+
+.advance-button,
+.color-button,
+.automatic-button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease;
+}
+
+.advance-button {
+  background: #225e4c;
+  color: #fff;
+}
+
+.automatic-button {
+  background: #dce9e3;
+  color: #214b3d;
+}
+
+.advance-button:hover,
+.color-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.advance-button:focus-visible,
+.color-button:focus-visible,
+.automatic-button:focus-visible,
+.automatic-controls input:focus-visible {
+  outline: 3px solid #263d35;
+  outline-offset: 3px;
+}
+
+.automatic-controls {
+  display: grid;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.interval-label {
+  color: #43574f;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.automatic-controls input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #cbd8d1;
+  border-radius: 10px;
+  background: #fff;
+  color: #263d35;
+  font: inherit;
+}
+
+.interval-help,
+.interval-error {
+  margin: -4px 0 0;
+  font-size: 13px;
+  text-align: left;
+}
+
+.interval-help {
+  color: #61706b;
+}
+
+.interval-error {
+  color: #a32626;
+}
+
+.automatic-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.automatic-status {
+  min-height: 20px;
+  margin: 0;
+  color: #61706b;
+  font-size: 13px;
+}
+
+.color-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.color-button {
+  padding-inline: 8px;
+  background: #e8eeeb;
+  color: #263d35;
+  font-size: 14px;
+}
+
+.color-button[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px #263d35;
+}
+
+@media (max-width: 360px) {
+  .traffic-card {
+    padding: 30px 18px;
+  }
+
+  .traffic-scene {
+    width: min(210px, 100%);
+  }
+
+  .color-button {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traffic-car,
+  .traffic-pedestrian {
+    animation: none;
   }
 }
